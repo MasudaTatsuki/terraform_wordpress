@@ -1,5 +1,5 @@
 resource "aws_instance" "web" {
-  ami                         = "ami-06cd52961ce9f0d85"
+  ami                         = "ami-031ff5a575101728a"
   instance_type               = "t2.micro"
   # subnet_id                   = aws_subnet.public-a.id
   subnet_id                   = var.subnet_id
