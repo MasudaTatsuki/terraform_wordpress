@@ -9,27 +9,29 @@ resource "aws_vpc" "main" {
   }
 }
 
-# resource "aws_internet_gateway" "internet_gateway" {
-#   vpc_id = aws_vpc.main.id
+resource "aws_internet_gateway" "internet_gateway" {
+  vpc_id = aws_vpc.main.id
 
-#   tags = {
-#     Name = "Wordpress-InternetGateway"
-#   }
-# }
+  tags = {
+    Name = "Wordpress-InternetGateway"
+  }
+}
 
-# resource "aws_route_table" "rote_table" {
-#   vpc_id = aws_vpc.main.id
+resource "aws_route_table" "rote_table" {
+  vpc_id = aws_vpc.main.id
 
-#   route = [{
-#     cidr_block = "0.0.0.0/0"
-#     gateway_id = aws_internet_gateway.internet_gateway.id
-#     # gateway_id = var.gateway_id
-#   }]
-# }
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.internet_gateway.id
+  }
 
-# resource "aws_route_table_association" "route_table_association" {
-#   # subnet_id      = aws_subnet.public-a.id
-#   subnet_id      = var.subnet_id
-#   route_table_id = aws_route_table.rote_table.id
-# }
+  tags = {
+    Name = "main"
+  }
+}
+
+resource "aws_main_route_table_association" "route_table_association" {
+    vpc_id         = aws_vpc.main.id
+    route_table_id = aws_route_table.rote_table.id
+}
 

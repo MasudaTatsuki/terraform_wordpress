@@ -9,6 +9,17 @@ resource "aws_subnet" "public-a" {
   }
 }
 
+resource "aws_subnet" "public-c" {
+  vpc_id                  = var.vpc_id
+  cidr_block              = "10.1.10.0/24"
+  availability_zone       = "ap-northeast-1c"
+  map_public_ip_on_launch = "true"
+
+  tags = {
+    Name = "Wordpress-Publicsubnet-1c"
+  }
+}
+
 resource "aws_subnet" "private-a" {
   vpc_id            = var.vpc_id
   cidr_block        = "10.1.2.0/24"
@@ -27,6 +38,12 @@ resource "aws_subnet" "private-d" {
   tags = {
     Name = "Wordpress-PrivateSubnet-1d"
   }
+}
+
+resource "aws_db_subnet_group" "db-subnet" {
+    name = "db-subnet"
+    description = "test db subnet"
+    subnet_ids = [aws_subnet.private-a.id, aws_subnet.private-d.id]
 }
 
 resource "aws_db_subnet_group" "this" {
